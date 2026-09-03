@@ -17,15 +17,16 @@ export const metadata: Metadata = {
   title: "Frankestein | Nutrición",
   description:
     "Registrá alimentos, conjuntos y macros diarios de forma rápida en el celular.",
-  // Sin imagen de preview al compartir (WhatsApp, etc.). El favicon de la pestaña se mantiene.
+  // icon.png / opengraph-image.png / twitter-image.png viven en src/app/
   openGraph: {
     title: "Frankestein | Nutrición",
     description:
       "Registrá alimentos, conjuntos y macros diarios de forma rápida en el celular.",
     type: "website",
+    siteName: "Frankestein",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Frankestein | Nutrición",
     description:
       "Registrá alimentos, conjuntos y macros diarios de forma rápida en el celular.",
