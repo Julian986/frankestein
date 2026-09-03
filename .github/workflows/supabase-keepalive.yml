@@ -1,0 +1,46 @@
+# Evita que el proyecto Free de Supabase se pause por inactividad (~7 días).
+# Corre 2 veces por semana y hace un SELECT mínimo vía REST.
+#
+# Secretos del repo (Settings → Secrets and variables → Actions):
+#   SUPABASE_URL       = https://xxxx.supabase.co
+#   SUPABASE_ANON_KEY  = eyJhbGciOi...
+
+name: Supabase keep-alive
+
+on:
+  schedule:
+    # Lunes y jueves 12:00 UTC (~09:00 Argentina)
+    - cron: "0 12 * * 1,4"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase (SELECT mínimo)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Faltan secrets SUPABASE_URL o SUPABASE_ANON_KEY"
+            exit 1
+          fi
+
+          URL="${SUPABASE_URL%/}/rest/v1/foods?select=id&limit=1"
+          CODE=$(curl -sS -o /tmp/keepalive-body.txt -w "%{http_code}" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            -H "Accept: application/json" \
+            "$URL")
+
+          echo "HTTP $CODE"
+          cat /tmp/keepalive-body.txt
+          echo
+
+          if [ "$CODE" != "200" ]; then
+            echo "Keep-alive falló"
+            exit 1
+          fi
+
+          echo "Keep-alive OK"

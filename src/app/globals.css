@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  /* Piedra cálida + azul navy profundo */
+  --background: #f6f3ef;
+  --foreground: #1c1917;
+  --card: #fffcf8;
+  --muted: #78716c;
+  --primary: #152a6e;
+  --primary-dark: #0f1f54;
+  --accent: #e8eefc;
+  --border: #e4ddd4;
+  --danger: #dc2626;
+  --kcal: #c2410c;
+  --protein: #0891b2;
+  --carbs: #7c3aed;
+  --fat: #be123c;
+  --theme-ring: rgba(21, 42, 110, 0.22);
+}
+
+.dark {
+  --background: #0b0f1a;
+  --foreground: #eef2ff;
+  --card: #121826;
+  --muted: #94a3b8;
+  --primary: #3b6fd9;
+  --primary-dark: #2b57b5;
+  --accent: #152044;
+  --border: #243044;
+  --danger: #f87171;
+  --kcal: #fb923c;
+  --protein: #22d3ee;
+  --carbs: #c084fc;
+  --fat: #fb7185;
+  --theme-ring: rgba(59, 111, 217, 0.32);
+}
+
+/* Macros en blanco/negro según el tema (claro = negro, oscuro = blanco) */
+.macros-mono {
+  --kcal: var(--foreground);
+  --protein: var(--foreground);
+  --carbs: var(--foreground);
+  --fat: var(--foreground);
+}
+
+/* Swatches del toggle: siempre a color, aunque la app esté en macros-mono */
+.macros-color-preview {
+  --kcal: #c2410c;
+  --protein: #0891b2;
+  --carbs: #7c3aed;
+  --fat: #be123c;
+}
+
+.dark .macros-color-preview {
+  --kcal: #fb923c;
+  --protein: #22d3ee;
+  --carbs: #c084fc;
+  --fat: #fb7185;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-danger: var(--danger);
+  --color-kcal: var(--kcal);
+  --color-protein: var(--protein);
+  --color-carbs: var(--carbs);
+  --color-fat: var(--fat);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+/* Cursor pointer en todo lo interactivo */
+button,
+a,
+label,
+summary,
+select,
+input,
+textarea,
+.field,
+[role="button"],
+[role="link"],
+[role="option"],
+[role="tab"],
+[role="menuitem"],
+[role="switch"],
+[role="checkbox"],
+[role="radio"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+a[aria-disabled="true"],
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.field {
+  min-height: 2.75rem;
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 0.7rem 0.9rem;
+  color: var(--foreground);
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--theme-ring);
+}
+
+.field-error {
+  border-color: var(--danger);
+}
+
+.field-error:focus {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.18);
+}
+
+/* Evita spinners nativos si queda algún type=number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
