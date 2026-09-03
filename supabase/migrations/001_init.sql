@@ -62,3 +62,11 @@ create policy "public_all_foods" on foods for all using (true) with check (true)
 create policy "public_all_meals" on meals for all using (true) with check (true);
 create policy "public_all_meal_items" on meal_items for all using (true) with check (true);
 create policy "public_all_daily_entries" on daily_entries for all using (true) with check (true);
+
+-- Necesario si "Automatically expose new tables" está desactivado:
+-- RLS permite filas, pero sin GRANT la Data API no puede tocar las tablas.
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on foods to anon, authenticated;
+grant select, insert, update, delete on meals to anon, authenticated;
+grant select, insert, update, delete on meal_items to anon, authenticated;
+grant select, insert, update, delete on daily_entries to anon, authenticated;

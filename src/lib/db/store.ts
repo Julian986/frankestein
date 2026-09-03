@@ -18,6 +18,14 @@ export type DbShape = {
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_PATH = path.join(DATA_DIR, "db.json");
 
+function assertLocalFsAllowed(): void {
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    throw new Error(
+      "Modo local no funciona en Vercel. Configurá NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+    );
+  }
+}
+
 function normalizeDb(raw: DbShape): DbShape {
   return {
     ...raw,
@@ -32,6 +40,7 @@ function normalizeDb(raw: DbShape): DbShape {
 }
 
 async function ensureDb(): Promise<DbShape> {
+  assertLocalFsAllowed();
   try {
     const raw = await fs.readFile(DB_PATH, "utf8");
     return normalizeDb(JSON.parse(raw) as DbShape);
@@ -48,6 +57,7 @@ export async function readDb(): Promise<DbShape> {
 }
 
 export async function writeDb(db: DbShape): Promise<void> {
+  assertLocalFsAllowed();
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(DB_PATH, JSON.stringify(db, null, 2), "utf8");
 }
