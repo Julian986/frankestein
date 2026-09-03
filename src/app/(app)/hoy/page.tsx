@@ -81,7 +81,7 @@ export default async function HoyPage({ searchParams }: Props) {
       <section className="rounded-3xl border border-border bg-card p-4 shadow-sm">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-            {range.totalsLabel}
+            {range.totalsLabel} elhola
           </h2>
           <MacrosColorToggle />
         </div>
